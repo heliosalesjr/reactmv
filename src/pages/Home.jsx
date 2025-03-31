@@ -1,31 +1,22 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import MovieCard from '../components/MovieCard'
 import { useState } from 'react';
+import { searchMovies, getPopularMovies } from '../services/api';
+import '../css/Home.css'
 
 const Home = () => {
     const [searchTerm, setSearchTerm] = useState('')
+    const [movies, setMovies] = useState([])
 
-    const movies = [
-        {
-            id: 1,
-            title: 'Sharknado',
-            release_date: '2023-01-01',
-            url: 'https://via.placeholder.com/150'
-        },
-        {
-            id: 2,
-            title: 'Jaws',
-            release_date: '2023-02-01',
-            url: 'https://via.placeholder.com/150'
-        },
-        {
-            id: 3,
-            title: 'Friday the 13th',
-            release_date: '2023-03-01',
-            url: 'https://via.placeholder.com/150'
+    useEffect(() => {
+        const fetchMovies = async () => {
+            const data = await getPopularMovies()
+            setMovies(data)
         }
-    ]
-    
+        fetchMovies()
+    }
+    , [])
+
     const handleSubmit = (e) => {
         e.preventDefault() //prevent behavior so it doesn't refresh the page
         alert(`Searching for ${searchTerm}`)
